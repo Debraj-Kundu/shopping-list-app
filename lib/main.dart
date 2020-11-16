@@ -39,10 +39,24 @@ class _HomeState extends State<Home> {
     });
   }
   Widget _buildRow(String itemtext){
+    final alreadysaved = _done.contains(itemtext);
     return Column(
       children: [
         ListTile(
           title: Text(itemtext),
+          trailing: Icon(
+            alreadysaved?Icons.check_circle:Icons.check_circle_outline,
+            color: alreadysaved?Colors.green:null,
+          ),
+          onTap: (){
+            setState(() {
+              if(alreadysaved){
+                _done.remove(itemtext);
+              }else{
+                _done.add(itemtext);
+              }
+            });
+          },
         ),
         Divider(),
       ],
@@ -57,6 +71,33 @@ class _HomeState extends State<Home> {
       },
     );
   }
+  void _pushSaved(){
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (BuildContext context){
+            final tiles = _done.map(
+              (itemtext){
+                return ListTile(
+                  title: Text(
+                    itemtext,
+                  ),
+                );
+              }
+            );
+            final divided = ListTile.divideTiles(
+              context: context,
+              tiles: tiles,
+            ).toList();
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('Done'),
+              ),
+              body: ListView(children: divided),
+            );
+          }
+        )
+      );
+    }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +110,7 @@ class _HomeState extends State<Home> {
         actions: [
           IconButton(
             icon: Icon(Icons.menu),
-            onPressed: (){},
+            onPressed: _pushSaved,
             splashColor: Colors.pinkAccent,
           )
         ],

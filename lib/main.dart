@@ -30,12 +30,22 @@ class _HomeState extends State<Home> {
   final _items = List();
   final _done = Set();
   final TextEditingController addeditem = TextEditingController(text: '');
-
+  var value = '';
   void _addItemToList(){
     setState(() {
       int index = _items.length;
       _items.add(addeditem.text);
       addeditem.text = '';
+    });
+  }
+  void _deleteItem(){
+    setState(() {
+      _items.remove(value);
+    });
+  }
+  void _editItem(){
+    setState(() {
+      debugPrint('Edit button pressed');
     });
   }
   Widget _buildRow(String itemtext){
@@ -57,6 +67,12 @@ class _HomeState extends State<Home> {
               }
             });
           },
+          onLongPress: (){
+            setState(() {
+              value = itemtext;
+            });
+            _selectionAlert();
+          },
         ),
         Divider(),
       ],
@@ -66,7 +82,7 @@ class _HomeState extends State<Home> {
     return ListView.builder(
       itemBuilder: (BuildContext context, int i){
         if(i < _items.length){
-          return _buildRow(_items[i]);
+          return _items[i]==''?null:_buildRow(_items[i]);
         }
       },
     );
@@ -151,6 +167,66 @@ class _HomeState extends State<Home> {
       context: context,
       builder: (BuildContext context){
         return addItem;
+      }
+    );
+  }
+  void _selectionAlert(){
+      var selItem = AlertDialog(
+        title: Text('What you want to do?'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              child: Text('Delete', style: TextStyle(color: Colors.red)),
+              onPressed: (){
+                _deleteItem();
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Edit', style: TextStyle(color: Colors.grey)),
+              onPressed: (){
+                print("Edit button presed");
+                _editAlert();
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        ),
+      );
+      showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return selItem;
+      }
+    );
+  }
+  void _editAlert(){
+    var editItem = AlertDialog(
+      title: Text('Edit'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'Edit Item',
+            ),
+            controller: addeditem,
+          ),
+          TextButton(
+            child: Text('Done'),
+            onPressed: (){
+              _editItem();
+              Navigator.of(context).pop();
+            }
+          )
+        ],
+      ),
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return editItem;
       }
     );
   }

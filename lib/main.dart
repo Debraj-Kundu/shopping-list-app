@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
   }
   void _editItem(){
     setState(() {
-      debugPrint('Edit button pressed');
+      //write edit logic here
     });
   }
   Widget _buildRow(String itemtext){
@@ -186,9 +186,8 @@ class _HomeState extends State<Home> {
             TextButton(
               child: Text('Edit', style: TextStyle(color: Colors.grey)),
               onPressed: (){
-                print("Edit button presed");
                 _editAlert();
-                Navigator.of(context).pop();
+                //Navigator.of(context).pop();
               },
             )
           ],
@@ -201,7 +200,7 @@ class _HomeState extends State<Home> {
       }
     );
   }
-  void _editAlert(){
+  Future<void> _editAlert(){
     var editItem = AlertDialog(
       title: Text('Edit'),
       content: Column(
@@ -223,7 +222,7 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
-    showDialog(
+    return showDialog(
       context: context,
       builder: (BuildContext context){
         return editItem;

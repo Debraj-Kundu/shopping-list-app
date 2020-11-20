@@ -30,10 +30,12 @@ class _HomeState extends State<Home> {
   final _items = List();
   final _done = Set();
   final TextEditingController addeditem = TextEditingController(text: '');
+  final TextEditingController editeditem = TextEditingController(text: '');
   var value = '';
+  int index=0;
   void _addItemToList(){
     setState(() {
-      int index = _items.length;
+      index = _items.length;
       _items.add(addeditem.text);
       addeditem.text = '';
     });
@@ -44,8 +46,16 @@ class _HomeState extends State<Home> {
     });
   }
   void _editItem(){
+    //final tile = _items.firstWhere((item) => item == value);
     setState(() {
-      //write edit logic here
+      int target = 0;
+      for(int i=0; i<index; i++){
+        if(_items[i] == value){
+          target = i;
+          break;
+        }
+      }
+      _items[target] = addeditem.text;
     });
   }
   Widget _buildRow(String itemtext){
@@ -70,8 +80,8 @@ class _HomeState extends State<Home> {
           onLongPress: (){
             setState(() {
               value = itemtext;
+              _selectionAlert();
             });
-            _selectionAlert();
           },
         ),
         Divider(),

@@ -63,10 +63,14 @@ class _HomeState extends State<Home> {
     return Column(
       children: [
         ListTile(
-          title: Text(itemtext),
+          title: Text(itemtext, style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),),
           trailing: Icon(
             alreadysaved?Icons.check_circle:Icons.check_circle_outline,
             color: alreadysaved?Colors.green:null,
+            size: 34,
           ),
           onTap: (){
             setState(() {
@@ -105,7 +109,10 @@ class _HomeState extends State<Home> {
               (itemtext){
                 return ListTile(
                   title: Text(
-                    itemtext,
+                    itemtext, style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
                   ),
                 );
               }
@@ -116,7 +123,10 @@ class _HomeState extends State<Home> {
             ).toList();
             return Scaffold(
               appBar: AppBar(
-                title: Text('Done'),
+                title: Text('Done', style: TextStyle(
+            fontSize: 20,
+            //fontWeight: FontWeight.bold,
+          ),),
               ),
               body: ListView(children: divided),
             );
@@ -150,7 +160,9 @@ class _HomeState extends State<Home> {
   }
   void _alertToAddItems(){
     var addItem = AlertDialog(
-      title: Text('Add Items'),
+      title: Text('Add Items',
+        textAlign: TextAlign.center,
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -162,7 +174,10 @@ class _HomeState extends State<Home> {
             controller: addeditem,
           ),
           TextButton(
-            child: Text('Done'),
+            child: Text('Done', style: TextStyle(
+            fontSize: 20,
+            //fontWeight: FontWeight.bold,
+          ),),
             onPressed: (){
               _addItemToList();
               Navigator.of(context).pop();
@@ -182,19 +197,21 @@ class _HomeState extends State<Home> {
   }
   void _selectionAlert(){
       var selItem = AlertDialog(
-        title: Text('What you want to do?'),
+        title: Text('What you want to do?', 
+          textAlign: TextAlign.center,
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextButton(
-              child: Text('Delete', style: TextStyle(color: Colors.red)),
+              child: Text('Delete', style: TextStyle(color: Colors.red, fontSize: 20)),
               onPressed: (){
                 _deleteItem();
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Edit', style: TextStyle(color: Colors.grey)),
+              child: Text('Edit', style: TextStyle(color: Colors.grey, fontSize: 20)),
               onPressed: (){
                 _editAlert();
                 //Navigator.of(context).pop();

@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
   }
   Widget _buildRow(String itemtext){
     final alreadysaved = _done.contains(itemtext);
-    return Column(
+    return itemtext != ''?Column(
       children: [
         ListTile(
           title: Text(itemtext, style: TextStyle(
@@ -90,13 +90,13 @@ class _HomeState extends State<Home> {
         ),
         Divider(),
       ],
-    );
+    ):SizedBox(height: 0);
   }
   Widget _shoppingListItems(){
     return ListView.builder(
       itemBuilder: (BuildContext context, int i){
         if(i < _items.length){
-          return _items[i]==''?null:_buildRow(_items[i]);
+          return /*_items[i]==''?_buildRow(_items[i]):*/_buildRow(_items[i]);
         }
       },
     );
